@@ -5,6 +5,7 @@ import platform
 import sys
 import threading
 import traceback
+from collections.abc import Sequence
 from time import sleep, time
 from xml.etree import ElementTree
 
@@ -114,6 +115,12 @@ def get_bus(dbus_name: str) -> dbus.bus.BusConnection:
     if dbus_name not in _bus_instances or not _bus_instances[dbus_name].get_is_connected():
         _bus_instances[dbus_name] = SessionBus() if "DBUS_SESSION_BUS_ADDRESS" in os.environ else SystemBus()
     return _bus_instances[dbus_name]
+
+
+def _adjust_temperature(value: float | None, adjustment: Sequence[float]) -> float | None:
+    if value is None:
+        return None
+    return (value * adjustment[1]) + adjustment[0]
 
 
 class DbusHelper:
