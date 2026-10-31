@@ -103,6 +103,7 @@
 * Changed: LLT/JBD UP16S BMS - Fixed reading 4 fault/alarm values @dmitrych5
 * Changed: Made some dbus settings silent to not flood the localsettings service log by @mr-manuel
 * Changed: Mechanism to reset SOC via GUI, since it was not possible to set the same SOC twice by @mr-manuel
+* Changed: Modernized the Python toolchain: replaced black/flake8 with ruff (linting + formatting), added ty type checking, uv-managed hash-locked dependencies (`uv.lock`), `uv audit` dependency scanning and Dependabot in CI, plus SHA256 checksums and a CycloneDX SBOM for release artifacts. Vendored code is now documented in `VENDORED.md` by @mr-manuel
 * Changed: RV-C CAN BMS - Fixed wrong charge/discharge fet assignment @mr-manuel
 * Changed: Seplos BMS - Fix problems with unique identifier when daisy chained by @KoljaWindeler
 * Changed: Service runscripts now derive the serial port name from the service-directory suffix, so manually-created service entries (e.g. for socat-bridged PTYs) no longer depend on the `TTY` sentinel substitution by serial-starter. Fixes https://github.com/hsteinhaus/venus-os_dbus-serialbattery/issues/2 by @hsteinhaus

@@ -21,3 +21,15 @@ dbus-serialbattery/bms_detection_cache.json
 dbus-serialbattery/capture/
 venus-data.tar.gz
 *.bak
+
+# Ruff
+.ruff_cache/
+.pytest_cache/
+
+# Personal development environments (not part of the project)
+.devenv/
+devenv.lock
+devenv.nix
+devenv.yaml
+.envrc
+.direnv/

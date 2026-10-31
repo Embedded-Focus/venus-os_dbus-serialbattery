@@ -38,7 +38,7 @@ Venus-OS Devices under `/opt/victronenergy/dbus-systemcalc-py/ext/velib_python`.
 `git clone` the [velib_python](https://github.com/victronenergy/velib_python) project to velib_python and add
 velib_python to the `PYTHONPATH` environment variable.
 
-Make sure the GitHub Actions run fine in your repository. In order to make the GitHub Actions run please select in your repository settings under `Actions` -> `General` -> `Actions permissions` the option `Allow all actions and reusable workflows`. Check also in your repository settings under `Actions` -> `General` -> `Workflow permissions` if `Read and write permissions` are selected. This will check your code for Flake8 and Black Lint errors. [Here](https://py-vscode.readthedocs.io/en/latest/files/linting.html) is a short instruction on how to set up Flake8 and Black Lint checks in VS Code. This will save you a lot of time.
+Make sure that the GitHub Actions can run in your repository. Select in your repository settings under `Actions` -> `General` -> `Actions permissions` the option `Allow all actions and reusable workflows`. The workflows declare the permissions that they need, so you can keep the default workflow permissions. The checks run ruff (linting and formatting), a dependency audit (`uv audit`), CodeQL, and the test suite. See [CONTRIBUTING.md](CONTRIBUTING.md) on how to set up the development environment with uv.
 
 See this checklist, if you want to [add a new BMS](https://mr-manuel.github.io/venus-os_dbus-serialbattery_docs/general/supported-bms#add-by-opening-a-pull-request)
 
