@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-import threading
-import can
 import subprocess
-from utils import logger, capture_raw_data
+import threading
 from time import sleep, time
+
+import can
+
+from utils import capture_raw_data, logger
 
 
 class CanTransportInterface:
@@ -72,7 +74,7 @@ class CanReceiverThread(threading.Thread):
 
         # fetch the bitrate from the current port, for logging only
         bitrate = self.get_bitrate(self.channel)
-        logger.info(f"Detected CAN Bus bitrate: {bitrate/1000:.0f} kbps")
+        logger.info(f"Detected CAN Bus bitrate: {bitrate / 1000:.0f} kbps")
 
         # timestamp of last received message
         last_message_time_stamp = 0
@@ -91,7 +93,6 @@ class CanReceiverThread(threading.Thread):
                     if message is not None:
                         last_message_time_stamp = self._current_time
                         with self.cache_lock:
-
                             # daly hack: cell voltage messages are sent with same id, so use frame id additionally as offset for cmd byte
                             if message.arbitration_id & 0xFFFFFF00 == 0x18954000:
                                 message.arbitration_id = message.arbitration_id + 0x100000 + (message.data[0] << 16)

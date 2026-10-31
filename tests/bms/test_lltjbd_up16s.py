@@ -6,23 +6,24 @@ Tests for LltJbd_Up16s battery management system driver.
 from __future__ import annotations
 
 import logging
-import pytest
-import serial
-import time
 import termios
-from battery import Protection
+import time
 from contextlib import contextmanager
 from typing import Any, Generator, List, Optional, Type
 from unittest.mock import MagicMock, patch
 
+import pytest
+import serial
+
 import bms.lltjbd_up16s
+from battery import Protection
 from bms.lltjbd_up16s import (
-    CommandAvailability,
-    LltJbd_Up16s,
     MASTER_AGGREGATED_VALUE_TIMEOUT_SECONDS,
     MAX_AVAILABILITY_RETRIES,
     MAX_INTERFERENCE_RETRY_SECONDS,
     MAX_SET_SOC_RETRIES,
+    CommandAvailability,
+    LltJbd_Up16s,
     PackParams1,
     PackStatus,
     SharedData,

@@ -5,23 +5,26 @@
 
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+
+import itertools
+import struct
+import sys
+from time import time
+
+import can
+
 from battery import Battery, Cell
 from utils import (
-    generate_unique_identifier,
     MAX_BATTERY_CHARGE_CURRENT,
     MAX_BATTERY_DISCHARGE_CURRENT,
     MAX_CELL_VOLTAGE,
     MIN_CELL_VOLTAGE,
-    UBMS_CAN_MODULE_SERIES,
-    UBMS_CAN_MODULE_PARALLEL,
     SOC_CALCULATION,
+    UBMS_CAN_MODULE_PARALLEL,
+    UBMS_CAN_MODULE_SERIES,
+    generate_unique_identifier,
     logger,
 )
-from time import time
-import sys
-import can
-import struct
-import itertools
 
 
 class Ubms_Can(Battery):

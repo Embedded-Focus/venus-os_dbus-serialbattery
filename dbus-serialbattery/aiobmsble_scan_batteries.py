@@ -1,22 +1,20 @@
 import argparse
 import asyncio
 import logging
-from typing import Final
-
-import sys
 import os
+import sys
+from typing import Final
 
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "ext"))
 # export PYTHONPATH="/data/apps/dbus-serialbattery/ext:$PYTHONPATH"
 
+from aiobmsble import BMSInfo, BMSSample  # noqa: E402
+from aiobmsble.basebms import BaseBMS  # noqa: E402
+from aiobmsble.utils import bms_identify  # noqa: E402
 from bleak import BleakScanner  # noqa: E402
 from bleak.backends.device import BLEDevice  # noqa: E402
 from bleak.backends.scanner import AdvertisementData  # noqa: E402
 from bleak.exc import BleakError  # noqa: E402
-
-from aiobmsble import BMSInfo, BMSSample  # noqa: E402
-from aiobmsble.basebms import BaseBMS  # noqa: E402
-from aiobmsble.utils import bms_identify  # noqa: E402
 
 logging.basicConfig(
     format="%(levelname)s: %(message)s",

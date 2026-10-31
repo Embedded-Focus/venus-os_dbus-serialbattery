@@ -11,12 +11,13 @@
 # the new version has moved things around a bit and started using a new SOI
 
 # avoid importing wildcards, remove unused imports
-from battery import Battery, Cell
-from utils import SOC_CALCULATION, open_serial_port, get_connection_error_message, logger, capture_raw_data
-from time import sleep
-from struct import unpack
-from re import findall
 import sys
+from re import findall
+from struct import unpack
+from time import sleep
+
+from battery import Battery, Cell
+from utils import SOC_CALCULATION, capture_raw_data, get_connection_error_message, logger, open_serial_port
 
 
 class KS48100(Battery):

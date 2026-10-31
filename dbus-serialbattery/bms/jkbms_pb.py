@@ -3,12 +3,14 @@
 # Notes
 # Added by https://github.com/KoljaWindeler
 
-from battery import Battery, Cell
-from utils import BATTERY_ADDRESSES, SOC_CALCULATION, logger, capture_raw_data
-from struct import unpack_from
-import serial
 import sys
 import time
+from struct import unpack_from
+
+import serial
+
+from battery import Battery, Cell
+from utils import BATTERY_ADDRESSES, SOC_CALCULATION, capture_raw_data, logger
 
 
 class Jkbms_pb(Battery):
@@ -333,7 +335,7 @@ class Jkbms_pb(Battery):
             n = max(len(BATTERY_ADDRESSES), 1)
             per_bat_ms = (self.COMMAND_GAP + 0.04) * 1000  # gap + ~40ms protocol
             logger.info(
-                f"JKBMS PB timing: gap={self.COMMAND_GAP * 1000:.0f}ms" f" — estimated poll: {n}x {per_bat_ms:.0f}ms = {n * per_bat_ms:.0f}ms for {n} batteries"
+                f"JKBMS PB timing: gap={self.COMMAND_GAP * 1000:.0f}ms — estimated poll: {n}x {per_bat_ms:.0f}ms = {n * per_bat_ms:.0f}ms for {n} batteries"
             )
 
         return True

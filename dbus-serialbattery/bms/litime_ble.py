@@ -4,10 +4,11 @@
 # Added by https://github.com/calledit
 # https://github.com/mr-manuel/venus-os_dbus-serialbattery/pull/59
 
-from battery import Battery, Cell
-from struct import unpack_from
-from utils_ble import Syncron_Ble
 import time
+from struct import unpack_from
+
+from battery import Battery, Cell
+from utils_ble import Syncron_Ble
 
 
 class LiTime_Ble(Battery):

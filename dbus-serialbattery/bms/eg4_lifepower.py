@@ -5,11 +5,13 @@
 # https://github.com/Louisvdw/dbus-serialbattery/pull/212
 
 from __future__ import absolute_import, division, print_function, unicode_literals
-from battery import Battery, Cell
-from utils import read_serial_data, get_connection_error_message, logger, bytearray_to_string
-from struct import unpack_from
+
 import re
 import sys
+from struct import unpack_from
+
+from battery import Battery, Cell
+from utils import bytearray_to_string, get_connection_error_message, logger, read_serial_data
 
 
 class EG4_Lifepower(Battery):

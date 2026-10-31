@@ -7,14 +7,14 @@ import logging
 import logging.handlers
 import re
 import sys
+import time
 from pathlib import Path
 from struct import Struct, unpack_from
 from time import sleep
-from typing import List, Any, Callable, Optional, Union
+from typing import Any, Callable, List, Optional, Union
 
 # Third-party imports
 import serial
-import time
 
 # CONSTANTS
 DRIVER_VERSION: str = "2.1.20260729dev"

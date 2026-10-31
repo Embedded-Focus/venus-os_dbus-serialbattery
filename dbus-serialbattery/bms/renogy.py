@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from battery import Battery, Cell
-from utils import read_serial_data, unpack_from, generate_unique_identifier, logger
-from struct import unpack
 import struct
 import sys
+from struct import unpack
+
+from battery import Battery, Cell
+from utils import generate_unique_identifier, logger, read_serial_data, unpack_from
 
 
 class Renogy(Battery):

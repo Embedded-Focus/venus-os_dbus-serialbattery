@@ -1,6 +1,6 @@
-import subprocess
 import os
 import os.path
+import subprocess
 
 # commands
 LCD_CLEARDISPLAY = "\014"

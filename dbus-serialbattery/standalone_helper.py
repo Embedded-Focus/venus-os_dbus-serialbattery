@@ -6,8 +6,9 @@
 import sys
 import traceback
 from time import time
-from utils import logger
+
 import utils
+from utils import logger
 
 
 class DbusHelper:

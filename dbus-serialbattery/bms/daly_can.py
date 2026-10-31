@@ -7,24 +7,26 @@
 
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+
+import sys
+from struct import pack_into, unpack_from
+from time import sleep, time
+
+from can import CanOperationError, Message
+
 from battery import Battery, Cell
 from utils import (
-    BATTERY_CAPACITY,
-    SOC_CALCULATION,
-    get_connection_error_message,
-    generate_unique_identifier,
-    INVERT_CURRENT_MEASUREMENT,
-    logger,
     AUTO_RESET_SOC,
+    BATTERY_CAPACITY,
+    INVERT_CURRENT_MEASUREMENT,
     MAX_BATTERY_CHARGE_CURRENT,
     MAX_BATTERY_DISCHARGE_CURRENT,
     MIN_CELL_VOLTAGE,
+    SOC_CALCULATION,
+    generate_unique_identifier,
+    get_connection_error_message,
+    logger,
 )
-from struct import unpack_from, pack_into
-from time import time
-import sys
-from can import Message, CanOperationError
-from time import sleep
 
 
 class Daly_Can(Battery):
@@ -251,7 +253,6 @@ class Daly_Can(Battery):
 
                 # SOC data
                 elif normalized_arbitration_id in self.CAN_FRAMES[self.RESPONSE_SOC]:
-
                     voltage, tmp, current, soc = unpack_from(">HHHH", data)
                     current = (current - self.CURRENT_ZERO_CONSTANT) / -10 * INVERT_CURRENT_MEASUREMENT
                     # logger.info("voltage: " + str(voltage) + ", current: " + str(current) + ", soc: " + str(soc))
@@ -272,7 +273,6 @@ class Daly_Can(Battery):
                     and normalized_arbitration_id <= self.CAN_FRAMES[self.RESPONSE_CELL_VOLTS][0] + 0x1D0000
                 ):
                     if self.cell_count is not None:
-
                         frameCell = [0, 0, 0]
                         lowMin = MIN_CELL_VOLTAGE / 2
                         frame = 0
@@ -323,7 +323,6 @@ class Daly_Can(Battery):
 
                 # Temperature range data
                 elif normalized_arbitration_id in self.CAN_FRAMES[self.RESPONSE_TEMP]:
-
                     frameNr, t1, t2, t3, t4, t5, t6, t7 = unpack_from(">BBBBBBBB", data)
 
                     if frameNr == 1:

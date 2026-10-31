@@ -12,15 +12,17 @@
 # Tested with JBD UP16S015.
 
 from __future__ import absolute_import, division, print_function, unicode_literals
-from battery import Battery, Cell
-from utils import (
-    get_connection_error_message,
-    logger,
-    USE_BMS_DVCC_VALUES,
-)
+
+import sys
 from struct import unpack_from
 from time import sleep
-import sys
+
+from battery import Battery, Cell
+from utils import (
+    USE_BMS_DVCC_VALUES,
+    get_connection_error_message,
+    logger,
+)
 
 
 class LltJbd_Can(Battery):
@@ -214,7 +216,6 @@ class LltJbd_Can(Battery):
         data_check = 0
 
         for frame_id, data in self.can_transport_interface.can_message_cache_callback().items():
-
             # 0x351: BMS DVCC Instructions
             if frame_id in self.CAN_FRAMES[self.DVCC_INSTRUCTIONS]:
                 charge_voltage = unpack_from("<H", data, 0)[0] / 10

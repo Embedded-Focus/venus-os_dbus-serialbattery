@@ -3,21 +3,22 @@
 # Notes
 # Updated by https://github.com/idstein
 
-from battery import Protection, Battery, Cell
+import struct
+import sys
+from struct import pack, unpack_from
+
+from battery import Battery, Cell, Protection
 from utils import (
-    bytearray_to_string,
-    is_bit_set,
-    kelvin_to_celsius,
-    read_serial_data,
-    logger,
-    ZERO_CHAR,
     SOC_CALCULATION,
     SOC_LOW_ALARM,
     SOC_LOW_WARNING,
+    ZERO_CHAR,
+    bytearray_to_string,
+    is_bit_set,
+    kelvin_to_celsius,
+    logger,
+    read_serial_data,
 )
-from struct import unpack_from, pack
-import struct
-import sys
 
 # Protocol registers
 REG_ENTER_FACTORY = 0x00

@@ -20,8 +20,8 @@ import sys
 import threading
 
 import serial
-from serial.tools.list_ports import comports
 from serial.tools import hexlify_codec
+from serial.tools.list_ports import comports
 
 # pylint: disable=wrong-import-order,wrong-import-position
 
@@ -96,8 +96,8 @@ class ConsoleBase(object):
 
 
 if os.name == "nt":  # noqa
-    import msvcrt
     import ctypes
+    import msvcrt
     import platform
 
     class Out(object):
@@ -202,9 +202,9 @@ if os.name == "nt":  # noqa
 
 elif os.name == "posix":
     import atexit
-    import termios
     import fcntl
     import signal
+    import termios
 
     class Console(ConsoleBase):
         def __init__(self, miniterm):

@@ -2,11 +2,12 @@
 Tests for methods in utils.py. Currently only read_serialport_data() is tested.
 """
 
+from unittest.mock import MagicMock, PropertyMock, patch
+
 import pytest
-from unittest.mock import MagicMock, patch, PropertyMock
-from utils import read_serialport_data
 import serial
 
+from utils import read_serialport_data
 
 # =============================================================================
 # Fixtures

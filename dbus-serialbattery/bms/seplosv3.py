@@ -10,8 +10,9 @@ from typing import Union
 
 import ext.minimalmodbus as minimalmodbus
 import serial
+
 from battery import Battery, Cell, Protection
-from utils import get_connection_error_message, logger, USE_BMS_DVCC_VALUES, SOC_CALCULATION, wrap_modbus_capture
+from utils import SOC_CALCULATION, USE_BMS_DVCC_VALUES, get_connection_error_message, logger, wrap_modbus_capture
 
 RETRYCNT = 3
 

@@ -4,10 +4,11 @@
 # can be enabled by specifying it in the BMS_TYPE setting in the "config.ini"
 # https://github.com/Louisvdw/dbus-serialbattery/commit/7aab4c850a5c8d9c205efefc155fe62bb527da8e
 
-from battery import Battery, Cell
-from utils import kelvin_to_celsius, read_serial_data, logger
-from struct import unpack_from
 import sys
+from struct import unpack_from
+
+from battery import Battery, Cell
+from utils import kelvin_to_celsius, logger, read_serial_data
 
 
 class Sinowealth(Battery):

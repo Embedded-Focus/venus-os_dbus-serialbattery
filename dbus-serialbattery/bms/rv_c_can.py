@@ -4,11 +4,13 @@
 # Added by https://github.com/rogergrant99
 
 from __future__ import absolute_import, division, print_function, unicode_literals
-from battery import Battery, Cell
-from utils import SOC_CALCULATION, USE_BMS_DVCC_VALUES, generate_unique_identifier, logger
+
+import sys
 from struct import unpack_from
 from time import sleep, time
-import sys
+
+from battery import Battery, Cell
+from utils import SOC_CALCULATION, USE_BMS_DVCC_VALUES, generate_unique_identifier, logger
 
 
 class RV_C_Can(Battery):

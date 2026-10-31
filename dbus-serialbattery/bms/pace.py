@@ -3,9 +3,10 @@
 # Notes
 # Added by https://github.com/KoljaWindeler
 
-from battery import Battery, Cell
-from utils import SOC_CALCULATION, read_serial_data, logger
 import sys
+
+from battery import Battery, Cell
+from utils import SOC_CALCULATION, logger, read_serial_data
 
 
 class Pace(Battery):

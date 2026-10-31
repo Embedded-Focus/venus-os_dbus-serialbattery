@@ -72,21 +72,13 @@
 ######################################################################################
 
 
+import logging
 import os
 import sys
-import logging
 from time import sleep
-
 from typing import Union
 
 from battery import Battery
-from standalone_helper import DbusHelper
-from utils import (
-    BATTERY_ADDRESSES,
-    BMS_TYPE,
-    bytearray_to_string,
-    logger,
-)
 
 # import battery classes
 # TODO: import only the classes that are needed
@@ -105,6 +97,13 @@ from bms.pace import Pace
 from bms.renogy import Renogy
 from bms.seplos import Seplos
 from bms.seplosv3 import Seplosv3
+from standalone_helper import DbusHelper
+from utils import (
+    BATTERY_ADDRESSES,
+    BMS_TYPE,
+    bytearray_to_string,
+    logger,
+)
 
 # add ext folder to sys.path
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "ext"))
@@ -280,7 +279,6 @@ class standalone_serialbattery:
             This prevent problems when using the driver only with a serial connection
             """
             if self.driveroption <= 4:  # bluetooth
-
                 if self.driveroption == 1:  # "Jkbms_Ble":
                     # noqa: F401 --> ignore flake "imported but unused" error
                     from bms.jkbms_ble import Jkbms_Ble  # noqa: F401

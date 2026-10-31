@@ -4,10 +4,11 @@
 # can be enabled by specifying it in the BMS_TYPE setting in the "config.ini"
 # https://github.com/Louisvdw/dbus-serialbattery/issues/479
 
-from battery import Battery
-from utils import read_serial_data, logger, MIN_CELL_VOLTAGE
-from struct import unpack_from
 import sys
+from struct import unpack_from
+
+from battery import Battery
+from utils import MIN_CELL_VOLTAGE, logger, read_serial_data
 
 
 class ANT(Battery):

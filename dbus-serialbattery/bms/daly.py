@@ -3,24 +3,25 @@
 # Notes
 # Updated by https://github.com/transistorgit
 
+import sys
+from datetime import datetime
+from re import sub
+from struct import pack_into, unpack_from
+from time import sleep, time
+
 from battery import Battery, Cell
 from utils import (
-    bytearray_to_string,
-    get_connection_error_message,
-    open_serial_port,
-    logger,
     AUTO_RESET_SOC,
-    SOC_CALCULATION,
     BATTERY_CAPACITY,
     INVERT_CURRENT_MEASUREMENT,
     MIN_CELL_VOLTAGE,
+    SOC_CALCULATION,
+    bytearray_to_string,
     capture_raw_data,
+    get_connection_error_message,
+    logger,
+    open_serial_port,
 )
-from struct import unpack_from, pack_into
-from time import sleep, time
-from datetime import datetime
-from re import sub
-import sys
 
 
 class Daly(Battery):

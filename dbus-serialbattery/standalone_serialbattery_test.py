@@ -8,14 +8,14 @@
 # macGH 20.08.2024  Version 0.1.0
 # macGH 13.12.2024  Version 0.1.1 update for standalone_serialbattery naming
 
-import sys
-import signal
 import atexit
 import datetime
-from time import sleep
-from standalone_serialbattery import standalone_serialbattery
 import logging
+import signal
+import sys
+from time import sleep
 
+from standalone_serialbattery import standalone_serialbattery
 
 # "" = default = "/dev/ttyUSB0"
 # if you have another device specify here

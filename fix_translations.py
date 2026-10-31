@@ -1,6 +1,6 @@
-import re
-import os
 import glob
+import os
+import re
 
 qml_dir = r"c:\Users\Manuel\Nextcloud\01_Privat\09_GitHub\venus-os_dbus-serialbattery\dbus-serialbattery\qml\gui-v2"
 files = glob.glob(os.path.join(qml_dir, "**", "*.qml"), recursive=True)

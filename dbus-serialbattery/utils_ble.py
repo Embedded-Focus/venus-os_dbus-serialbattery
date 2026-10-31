@@ -1,15 +1,16 @@
-import threading
 import asyncio
 import subprocess
 import sys
-from bleak import BleakClient
+import threading
 from time import sleep
-from utils import logger, BLUETOOTH_FORCE_RESET_BLE_STACK, capture_raw_data
+
+from bleak import BleakClient
+
+from utils import BLUETOOTH_FORCE_RESET_BLE_STACK, capture_raw_data, logger
 
 
 # Class that enables synchronous writing and reading to a bluetooh device
 class Syncron_Ble:
-
     ble_async_thread_ready = threading.Event()
     ble_connection_ready = threading.Event()
     ble_async_thread_event_loop = False

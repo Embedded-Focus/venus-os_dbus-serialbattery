@@ -25,14 +25,15 @@ Usage:
 Author:
 - ChatGPT (prompt by user: "you are a embedded software engineer and python expert...")
 """
-import sys
+
 import os
+import sys
 
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "../dbus-serialbattery/ext"))
 
-import can  # noqa: E402
 import struct  # noqa: E402
 
+import can  # noqa: E402
 
 # -------------------------------------------------------------------------------------
 # The driver daly_can.py defines these command -> response arbitration IDs:
@@ -89,7 +90,7 @@ class DalyCanSimulator:
         """
         Main loop: read incoming CAN frames and respond if they match known commands.
         """
-        print("Daly CAN Simulator is running. Waiting for request frames...\n" "Press Ctrl+C to quit.\n")
+        print("Daly CAN Simulator is running. Waiting for request frames...\nPress Ctrl+C to quit.\n")
         while True:
             # Read a message from the bus (blocking).
             msg = self.bus.recv(timeout=1.0)

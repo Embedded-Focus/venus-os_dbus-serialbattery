@@ -7,13 +7,15 @@
 #     fairly possible)
 
 
+import threading
+import time
+from typing import Dict
+
+import ext.minimalmodbus as minimalmodbus
+import serial
+
 from battery import Battery, Cell
 from utils import SOC_CALCULATION, get_connection_error_message, logger, wrap_modbus_capture
-import serial
-import time
-import ext.minimalmodbus as minimalmodbus
-from typing import Dict
-import threading
 
 # the Heltec BMS is not always as responsive as it should, so let's try it up to (RETRYCNT - 1) times to talk to it
 RETRYCNT = 4

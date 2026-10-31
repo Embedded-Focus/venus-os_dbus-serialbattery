@@ -4,21 +4,22 @@
 # Added by https://github.com/alexphredorg
 # https://github.com/mr-manuel/venus-os_dbus-serialbattery/pull/183
 
-from battery import Battery, Cell
-import struct
-import binascii
-import atexit
-import threading
-import sys
 import asyncio
-from bleak import BleakClient
+import atexit
+import binascii
+import struct
+import sys
+import threading
 from time import time
-from utils import logger, capture_raw_data
 from typing import Optional
+
+from bleak import BleakClient
+
+from battery import Battery, Cell
+from utils import capture_raw_data, logger
 
 
 class Kilovault_Ble(Battery):
-
     MODEL_NBR_UUID = "2A24"
     KILOVAULT_BMS_SERVICE_UUID = "FFE0"
     KILOVAULT_BMS_NOTIFY_CHARACTERISTIC_UUID = "FFE4"
@@ -73,7 +74,6 @@ class Kilovault_Ble(Battery):
     async def connection_thread(self):
         logger.info(f"Starting connection to {self.address}")
         try:
-
             async with BleakClient(self.address) as client:
                 self.client = client
                 # register a callback to stop notifications

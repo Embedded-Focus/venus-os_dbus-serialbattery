@@ -5,10 +5,11 @@
 # in the documentation for a checklist what you have to do, when adding a new BMS
 
 # avoid importing wildcards, remove unused imports
-from battery import Battery, Cell
-from utils import read_serial_data, logger
-from struct import unpack_from
 import sys
+from struct import unpack_from
+
+from battery import Battery, Cell
+from utils import logger, read_serial_data
 
 # from utils import SOC_CALCULATION
 

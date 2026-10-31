@@ -3,11 +3,13 @@
 # Notes
 # Updated by https://github.com/peterohman
 
-from battery import Battery, Cell
-from utils import get_connection_error_message, logger, USE_BMS_DVCC_VALUES, capture_raw_data
-import serial
-from time import sleep
 import sys
+from time import sleep
+
+import serial
+
+from battery import Battery, Cell
+from utils import USE_BMS_DVCC_VALUES, capture_raw_data, get_connection_error_message, logger
 
 
 class HLPdataBMS4S(Battery):

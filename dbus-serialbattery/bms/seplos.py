@@ -4,10 +4,12 @@
 # Added by https://github.com/wollew
 # https://github.com/Louisvdw/dbus-serialbattery/pull/530
 
-from battery import Protection, Battery, Cell
-from utils import SOC_CALCULATION, get_connection_error_message, logger, capture_raw_data
-import serial
 import sys
+
+import serial
+
+from battery import Battery, Cell, Protection
+from utils import SOC_CALCULATION, capture_raw_data, get_connection_error_message, logger
 
 
 class Seplos(Battery):

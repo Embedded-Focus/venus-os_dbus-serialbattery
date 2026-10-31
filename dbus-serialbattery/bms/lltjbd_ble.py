@@ -6,17 +6,19 @@
 import asyncio
 import atexit
 import os
-import threading
-import sys
 import re
+import sys
+import threading
 from asyncio import CancelledError
 from time import sleep
-from typing import Union, Optional
-from utils import get_connection_error_message, logger, BLUETOOTH_FORCE_RESET_BLE_STACK, capture_raw_data
-from utils_ble import restart_ble_hardware_and_bluez_driver
+from typing import Optional, Union
+
 from bleak import BleakClient, BleakScanner, BLEDevice
 from bleak.exc import BleakDBusError
-from bms.lltjbd import LltJbdProtection, LltJbd
+
+from bms.lltjbd import LltJbd, LltJbdProtection
+from utils import BLUETOOTH_FORCE_RESET_BLE_STACK, capture_raw_data, get_connection_error_message, logger
+from utils_ble import restart_ble_hardware_and_bluez_driver
 
 BLE_SERVICE_UUID = "0000ff00-0000-1000-8000-00805f9b34fb"
 
@@ -94,7 +96,7 @@ class LltJbd_Ble(LltJbd):
             if "Bluetooth adapters" in repr(exception_object):
                 self.reset_hci_uart()
             else:
-                logger.error(f"BleakScanner(): Exception occurred: {repr(exception_object)} of type {exception_type} " f"in {file} line #{line}")
+                logger.error(f"BleakScanner(): Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
 
             self.device = None
             await asyncio.sleep(0.5)
@@ -124,7 +126,7 @@ class LltJbd_Ble(LltJbd):
             exception_type, exception_object, exception_traceback = sys.exc_info()
             file = exception_traceback.tb_frame.f_code.co_filename
             line = exception_traceback.tb_lineno
-            logger.error(f"BleakClient(): asyncio.exceptions.TimeoutError: {repr(exception_object)} of type {exception_type} " f"in {file} line #{line}")
+            logger.error(f"BleakClient(): asyncio.exceptions.TimeoutError: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
             # needed?
             self.run = False
             return
@@ -133,7 +135,7 @@ class LltJbd_Ble(LltJbd):
             exception_type, exception_object, exception_traceback = sys.exc_info()
             file = exception_traceback.tb_frame.f_code.co_filename
             line = exception_traceback.tb_lineno
-            logger.error(f"BleakClient(): TimeoutError: {repr(exception_object)} of type {exception_type} " f"in {file} line #{line}")
+            logger.error(f"BleakClient(): TimeoutError: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
             # needed?
             self.run = False
             return
@@ -142,7 +144,7 @@ class LltJbd_Ble(LltJbd):
             exception_type, exception_object, exception_traceback = sys.exc_info()
             file = exception_traceback.tb_frame.f_code.co_filename
             line = exception_traceback.tb_lineno
-            logger.error(f"BleakClient(): Exception occurred: {repr(exception_object)} of type {exception_type} " f"in {file} line #{line}")
+            logger.error(f"BleakClient(): Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
             # needed?
             self.run = False
             return

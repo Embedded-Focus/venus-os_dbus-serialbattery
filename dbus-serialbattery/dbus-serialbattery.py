@@ -12,27 +12,6 @@ from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GLib
 
 from battery import Battery
-from dbushelper import DbusHelper
-from utils import (
-    BATTERY_ADDRESSES,
-    BMS_TYPE,
-    bytearray_to_string,
-    DRIVER_VERSION,
-    EXCLUDED_DEVICES,
-    EXTERNAL_SENSOR_DBUS_DEVICE,
-    EXTERNAL_SENSOR_DBUS_PATH_CURRENT,
-    EXTERNAL_SENSOR_DBUS_PATH_SOC,
-    get_bms_detection_cache_key,
-    get_venus_os_version,
-    get_venus_os_image_type,
-    get_venus_os_device_type,
-    load_bms_detection_cache,
-    logger,
-    POLL_INTERVAL,
-    save_bms_detection_cache,
-    validate_config_values,
-    CAPTURE_RAW_DATA,
-)
 
 # import battery classes
 # TODO: import only the classes that are needed
@@ -53,6 +32,27 @@ from bms.pace import Pace
 from bms.renogy import Renogy
 from bms.seplos import Seplos
 from bms.seplosv3 import Seplosv3
+from dbushelper import DbusHelper
+from utils import (
+    BATTERY_ADDRESSES,
+    BMS_TYPE,
+    CAPTURE_RAW_DATA,
+    DRIVER_VERSION,
+    EXCLUDED_DEVICES,
+    EXTERNAL_SENSOR_DBUS_DEVICE,
+    EXTERNAL_SENSOR_DBUS_PATH_CURRENT,
+    EXTERNAL_SENSOR_DBUS_PATH_SOC,
+    POLL_INTERVAL,
+    bytearray_to_string,
+    get_bms_detection_cache_key,
+    get_venus_os_device_type,
+    get_venus_os_image_type,
+    get_venus_os_version,
+    load_bms_detection_cache,
+    logger,
+    save_bms_detection_cache,
+    validate_config_values,
+)
 
 # add ext folder to sys.path
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "ext"))
@@ -208,7 +208,7 @@ def main():
                 new_poll_interval = 60000
 
             battery[first_key].poll_interval = new_poll_interval
-            logger.warning(f"Polling took too long for the last {count_for_loops} cycles. Set to {new_poll_interval/1000:.3f} s")
+            logger.warning(f"Polling took too long for the last {count_for_loops} cycles. Set to {new_poll_interval / 1000:.3f} s")
 
             delayed_loop_count = 0
 
@@ -654,7 +654,7 @@ def main():
         if POLL_INTERVAL is not None:
             battery[first_key].poll_interval = POLL_INTERVAL
 
-        logger.info(f"Polling interval: {battery[first_key].poll_interval/1000:.3f} s")
+        logger.info(f"Polling interval: {battery[first_key].poll_interval / 1000:.3f} s")
         # schedule periodic polling
         GLib.timeout_add(
             battery[first_key].poll_interval,

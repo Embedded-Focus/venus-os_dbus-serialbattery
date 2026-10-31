@@ -9,24 +9,24 @@
 # - Check if the battery reconnects properly
 
 # avoid importing wildcards, remove unused imports
-from battery import Battery, Cell
-from utils import logger, BATTERY_CAPACITY
-import os
-import sys
-
 import asyncio
 import concurrent.futures
 import importlib
+import os
+import sys
 import threading
 import time
+
+from battery import Battery, Cell
+from utils import BATTERY_CAPACITY, logger
 
 # add ext folder to sys.path
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "ext"))
 
+from aiobmsble import BMSInfo, BMSSample, TempSensor  # noqa: E402
 from bleak import BleakScanner  # noqa: E402
 from bleak.backends.device import BLEDevice  # noqa: E402
 from bleak.exc import BleakError  # noqa: E402
-from aiobmsble import BMSInfo, BMSSample, TempSensor  # noqa: E402
 
 
 class Generic_AioBmsBle(Battery):

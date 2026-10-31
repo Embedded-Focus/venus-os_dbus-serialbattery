@@ -5,10 +5,11 @@
 # https://github.com/Louisvdw/dbus-serialbattery/issues/590
 # https://community.victronenergy.com/comments/231924/view.html
 
-from battery import Protection, Battery, Cell
-from utils import logger, MAX_CELL_VOLTAGE, MIN_CELL_VOLTAGE
-from bms.mnb_utils_max17853 import data_cycle, init_max
 import sys
+
+from battery import Battery, Cell, Protection
+from bms.mnb_utils_max17853 import data_cycle, init_max
+from utils import MAX_CELL_VOLTAGE, MIN_CELL_VOLTAGE, logger
 
 # from struct import *
 # from bms.mnb_test_max17853 import *  # use test for testing

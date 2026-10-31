@@ -5,14 +5,15 @@
 # https://github.com/Louisvdw/dbus-serialbattery/pull/372
 # Updated by https://github.com/mr-manuel
 
-from battery import Battery, Cell
-from typing import Callable
-from utils import logger, AUTO_RESET_SOC, BLUETOOTH_FORCE_RESET_BLE_STACK, BLUETOOTH_USE_POLLING
-from utils_ble import restart_ble_hardware_and_bluez_driver
-from time import sleep, time
-from bms.jkbms_brn import Jkbms_Brn
 import os
 import sys
+from time import sleep, time
+from typing import Callable
+
+from battery import Battery, Cell
+from bms.jkbms_brn import Jkbms_Brn
+from utils import AUTO_RESET_SOC, BLUETOOTH_FORCE_RESET_BLE_STACK, BLUETOOTH_USE_POLLING, logger
+from utils_ble import restart_ble_hardware_and_bluez_driver
 
 # from bleak import BleakScanner, BleakError
 # import asyncio

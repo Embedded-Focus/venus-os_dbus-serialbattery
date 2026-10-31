@@ -9,16 +9,19 @@
 # In theory, this protocol might also work over Bluetooth. For that, code in lltjbd_ble.py might need to be reused with lltjbd_up16s.py, but currently this is
 # not implemented.
 
-from battery import Battery, Cell, Protection
+import termios
+import time
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from enum import Enum, IntFlag
-from struct import pack, Struct, error as StructError
+from struct import Struct, pack
+from struct import error as StructError
 from typing import ClassVar, Dict, Optional, Type, TypeVar
-from utils import MAX_CELL_VOLTAGE, USE_BMS_DVCC_VALUES, SOC_CALCULATION, logger, read_serialport_data, AUTO_RESET_SOC, UP16S_REQUIRE_DIRECT_CONNECTION
+
 import serial
-import time
-import termios
+
+from battery import Battery, Cell, Protection
+from utils import AUTO_RESET_SOC, MAX_CELL_VOLTAGE, SOC_CALCULATION, UP16S_REQUIRE_DIRECT_CONNECTION, USE_BMS_DVCC_VALUES, logger, read_serialport_data
 
 # Modbus function codes
 FUNC_INDIVIDUAL_PACK_STATUS = 0x45
@@ -491,7 +494,7 @@ class LltJbd_Up16s(Battery):
         if self.hardware_version is None:
             # Master does not pass the full firmware version for slaves. Handle both formats.
             firmware_version = (
-                f"{pack_status.firmware_version >> 8}.{pack_status.firmware_version & 0xff}"
+                f"{pack_status.firmware_version >> 8}.{pack_status.firmware_version & 0xFF}"
                 if pack_status.firmware_version >= 0x100
                 else str(pack_status.firmware_version)
             )

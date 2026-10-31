@@ -4,10 +4,11 @@ Platform-specific modules (dbus, velib_python) are stubbed via conftest.py
 so these tests run on macOS, CI, and Linux alike.
 """
 
-import pytest
 from unittest.mock import MagicMock
 
-from dbushelper import _CachedDbusProxy, _SENTINEL
+import pytest
+
+from dbushelper import _SENTINEL, _CachedDbusProxy
 
 
 @pytest.fixture

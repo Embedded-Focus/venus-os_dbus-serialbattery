@@ -5,12 +5,13 @@
 # https://github.com/Louisvdw/dbus-serialbattery/pull/372
 # Updated by https://github.com/mr-manuel
 
-from struct import unpack_from, calcsize
-from bleak import BleakScanner, BleakClient, exc
-from time import sleep, time
 import asyncio
-import threading
 import sys
+import threading
+from struct import calcsize, unpack_from
+from time import sleep, time
+
+from bleak import BleakClient, BleakScanner, exc
 
 # if used as standalone script then use custom logger
 # else import logger from utils
@@ -26,7 +27,7 @@ if __name__ == "__main__":
         pass
 
 else:
-    from utils import bytearray_to_string, logger, capture_raw_data
+    from utils import bytearray_to_string, capture_raw_data, logger
 
 # zero means parse all incoming data (every second)
 CELL_INFO_REFRESH_S = 0

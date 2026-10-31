@@ -28,7 +28,7 @@ import struct
 from typing import Optional
 
 from battery import Battery, Cell
-from utils import logger, MAX_CELL_VOLTAGE, MAX_BATTERY_CHARGE_CURRENT, MAX_BATTERY_DISCHARGE_CURRENT, capture_raw_data
+from utils import MAX_BATTERY_CHARGE_CURRENT, MAX_BATTERY_DISCHARGE_CURRENT, MAX_CELL_VOLTAGE, capture_raw_data, logger
 
 # ── BLE UUIDs ──────────────────────────────────────────────────────────────
 
@@ -342,14 +342,14 @@ class Xdzn_Ble(Battery):
                 self.min_battery_voltage = self.cell_count * 2.80
                 self.cells = [Cell(False) for _ in range(self.cell_count)]
                 logger.info(
-                    "XDZN_BLE: test_connection found %d cells, " "Vmax=%.2f Vmin=%.2f",
+                    "XDZN_BLE: test_connection found %d cells, Vmax=%.2f Vmin=%.2f",
                     self.cell_count,
                     self.max_battery_voltage,
                     self.min_battery_voltage,
                 )
             else:
                 logger.warning(
-                    "XDZN_BLE: could not read analog data in test_connection, " "using default %d cells",
+                    "XDZN_BLE: could not read analog data in test_connection, using default %d cells",
                     self.cell_count,
                 )
 

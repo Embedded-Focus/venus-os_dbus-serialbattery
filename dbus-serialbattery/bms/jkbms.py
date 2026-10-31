@@ -3,11 +3,12 @@
 # Notes
 # Updated by https://github.com/mr-manuel
 
-from battery import Battery, Cell
-from utils import SOC_CALCULATION, bytearray_to_string, is_bit_set, read_serial_data, logger, ZERO_CHAR
-from struct import unpack_from
-from re import sub
 import sys
+from re import sub
+from struct import unpack_from
+
+from battery import Battery, Cell
+from utils import SOC_CALCULATION, ZERO_CHAR, bytearray_to_string, is_bit_set, logger, read_serial_data
 
 
 class Jkbms(Battery):

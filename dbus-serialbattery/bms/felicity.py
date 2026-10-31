@@ -4,12 +4,13 @@
 # Added by https://github.com/versager
 # https://github.com/mr-manuel/venus-os_dbus-serialbattery/pull/116
 
-from battery import Battery, Cell, Protection
-from utils import read_serial_data, unpack_from, logger
-import utils
-from struct import unpack
 import struct
 import sys
+from struct import unpack
+
+import utils
+from battery import Battery, Cell, Protection
+from utils import logger, read_serial_data, unpack_from
 
 
 class Felicity(Battery):

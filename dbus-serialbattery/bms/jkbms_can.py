@@ -10,11 +10,13 @@
 
 
 from __future__ import absolute_import, division, print_function, unicode_literals
-from battery import Battery, Cell
-from utils import SOC_CALCULATION, get_connection_error_message, generate_unique_identifier, logger
+
+import sys
 from struct import unpack_from
 from time import sleep, time
-import sys
+
+from battery import Battery, Cell
+from utils import SOC_CALCULATION, generate_unique_identifier, get_connection_error_message, logger
 
 
 class Jkbms_Can(Battery):
@@ -356,7 +358,6 @@ class Jkbms_Can(Battery):
 
         # fetch data from min/max values if protocol is JKBMS CAN V1 (extra frames missing)
         if data_check < 128:
-
             cell_mean_voltage = (v1_max_cell_volt + v1_min_cell_volt) / 2
 
             if self.cell_count == 0:

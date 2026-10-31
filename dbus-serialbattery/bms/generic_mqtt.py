@@ -4,24 +4,26 @@
 # Added by https://github.com/mr-manuel
 
 # avoid importing wildcards, remove unused imports
-from battery import Battery, Cell
-from typing import Callable
-from utils import (
-    logger,
-    MQTT_BROKER_ADDRESS,
-    MQTT_BROKER_PORT,
-    MQTT_TLS_ENABLED,
-    MQTT_TLS_PATH_TO_CA,
-    MQTT_TLS_INSECURE,
-    MQTT_USERNAME,
-    MQTT_PASSWORD,
-)
-from time import sleep, time
-from gi.repository import GLib
-import paho.mqtt.client as mqtt
+import json
 import os
 import sys
-import json
+from time import sleep, time
+from typing import Callable
+
+import paho.mqtt.client as mqtt
+from gi.repository import GLib
+
+from battery import Battery, Cell
+from utils import (
+    MQTT_BROKER_ADDRESS,
+    MQTT_BROKER_PORT,
+    MQTT_PASSWORD,
+    MQTT_TLS_ENABLED,
+    MQTT_TLS_INSECURE,
+    MQTT_TLS_PATH_TO_CA,
+    MQTT_USERNAME,
+    logger,
+)
 
 # add path to velib_python
 sys.path.insert(1, os.path.join(os.path.dirname(os.path.dirname(__file__)), "ext", "velib_python"))
@@ -217,7 +219,6 @@ class Generic_Mqtt(Battery):
 
     def on_message(self, client, userdata, msg):
         try:
-
             # get JSON from topic
             if msg.topic == self.mqtt_topic:
                 if msg.payload != "" and msg.payload != b"":
@@ -347,7 +348,7 @@ class Generic_Mqtt(Battery):
                                             # balance status is optional, so no error if missing
 
                         # update sub-dictionaries
-                        elif (value == "protection" or value == "history") and value_type == dict:
+                        elif (value == "protection" or value == "history") and value_type is dict:
                             if value in jsonpayload and isinstance(jsonpayload[value], dict):
                                 target_obj = getattr(self, value, None)
                                 if target_obj is not None:

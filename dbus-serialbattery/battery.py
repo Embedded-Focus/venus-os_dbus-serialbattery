@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-from typing import Union, Tuple, List, Dict, Callable
-
-from utils import logger, safe_number_format
-import utils
 import logging
 import math
+import sys
+from abc import ABC, abstractmethod
 from datetime import datetime
 from time import time
-from abc import ABC, abstractmethod
-import sys
+from typing import Callable, Dict, List, Tuple, Union
+
+import utils
+from utils import logger, safe_number_format
 
 
 class Protection(object):
@@ -671,7 +671,7 @@ class Battery(ABC):
         :return: None
         """
 
-        soc_reset_last_reached_days_ago = 0 if self.soc_reset_last_reached == 0 else (((int(time()) - self.soc_reset_last_reached) / 60 / 60 / 24))
+        soc_reset_last_reached_days_ago = 0 if self.soc_reset_last_reached == 0 else ((int(time()) - self.soc_reset_last_reached) / 60 / 60 / 24)
 
         # set soc_reset_requested to True, if the days are over
         # it gets set to False once the bulk voltage was reached once
@@ -771,7 +771,6 @@ class Battery(ABC):
 
             # Bulk or absorption mode
             if self.allow_max_voltage:
-
                 # Get maximum allowed cell voltage
                 cell_voltage_max_allowed = utils.SOC_RESET_CELL_VOLTAGE if self.soc_reset_requested else utils.MAX_CELL_VOLTAGE
 
@@ -976,7 +975,6 @@ class Battery(ABC):
 
             # debug information
             if utils.GUI_PARAMETERS_SHOW_ADDITIONAL_INFO or logger.isEnabledFor(logging.DEBUG):
-
                 soc_reset_days_ago = round((current_time - self.soc_reset_last_reached) / 60 / 60 / 24, 2)
                 soc_reset_in_days = round(utils.SOC_RESET_AFTER_DAYS - soc_reset_days_ago, 2)
 
@@ -2106,8 +2104,9 @@ class Battery(ABC):
         """
         Setup external sensor and it's dbus items
         """
-        import dbus
         import os
+
+        import dbus
         from dbus.mainloop.glib import DBusGMainLoop
         from vedbus import VeDbusItemImport
 
@@ -2125,7 +2124,6 @@ class Battery(ABC):
             is_present_in_vebus = utils.EXTERNAL_SENSOR_DBUS_DEVICE in dbus_connection.list_names()
 
             if is_present_in_vebus:
-
                 if utils.EXTERNAL_SENSOR_DBUS_PATH_CURRENT is not None:
                     logger.info(f"Using external sensor for current: {utils.EXTERNAL_SENSOR_DBUS_DEVICE}{utils.EXTERNAL_SENSOR_DBUS_PATH_CURRENT}")
                     dbus_objects["Current"] = VeDbusItemImport(
@@ -2332,7 +2330,7 @@ class Battery(ABC):
             logger.info(f"> |- BLOCK ON DISCONNECT TIMEOUT MINUTES: {utils.BLOCK_ON_DISCONNECT_TIMEOUT_MINUTES}")
             logger.info(f"> |- BLOCK ON DISCONNECT VOLTAGE MIN: {utils.BLOCK_ON_DISCONNECT_VOLTAGE_MIN:.3f} V")
             logger.info(f"> |- BLOCK ON DISCONNECT VOLTAGE MAX: {utils.BLOCK_ON_DISCONNECT_VOLTAGE_MAX:.3f} V")
-        logger.info(f'> CHARGE MODE: {"Linear" if utils.CHARGE_MODE == 1 else "Step" if utils.CHARGE_MODE == 2 else "Unknown"}')
+        logger.info(f"> CHARGE MODE: {'Linear' if utils.CHARGE_MODE == 1 else 'Step' if utils.CHARGE_MODE == 2 else 'Unknown'}")
         logger.info(f"> MIN CELL VOLTAGE: {utils.MIN_CELL_VOLTAGE:.3f} V | MAX CELL VOLTAGE: {utils.MAX_CELL_VOLTAGE:.3f} V")
         logger.info(
             f"> FLOAT CELL VOLTAGE: {utils.FLOAT_CELL_VOLTAGE:.3f} V"

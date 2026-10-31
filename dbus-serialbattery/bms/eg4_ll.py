@@ -4,16 +4,17 @@
 # Added by https://github.com/tuxntoast
 
 import datetime
-import serial
 import struct
 import sys
 import time
-import utils
 from pprint import pformat
 from time import sleep
 
+import serial
+
+import utils
 from battery import Battery, Cell
-from utils import logger, capture_raw_data
+from utils import capture_raw_data, logger
 
 #    Author: Pfitz
 #    Date: 31 Jan 2026
@@ -295,7 +296,7 @@ class EG4_LL(Battery):
         for i in range(battery["cell_count"]):
             raw = u16(CELL_START + i * 2)
             voltage = raw / 1000
-            battery[f"cell{i+1}"] = voltage
+            battery[f"cell{i + 1}"] = voltage
             cells.append(voltage)
         # Calculate cell stats
         valid_cells = [v for v in cells if v > 0.0]
@@ -362,9 +363,9 @@ class EG4_LL(Battery):
     def eg4ll_logger(self, packet, logLevel, alarm_msg=None):
         logger.info("===== HW Info =====")
         if logLevel == 1:
-            logger.info(f'  Battery Make/Model: {packet["hw_make"]}')
-            logger.info(f'  Hardware Version: {packet["hw_version"]}')
-        logger.info(f'  Serial Number: {packet["hw_serial"]}')
+            logger.info(f"  Battery Make/Model: {packet['hw_make']}")
+            logger.info(f"  Hardware Version: {packet['hw_version']}")
+        logger.info(f"  Serial Number: {packet['hw_serial']}")
         if logLevel != 3:
             logger.info("===== Temp =====")
             logger.info(f"  Temp 1: {packet['temp1']}c | Temp 2: {packet['temp2']}c | Temp Mos: {packet['temperature_mos']}c")
@@ -767,7 +768,7 @@ class EG4_LL(Battery):
                             return False
             # All attempts failed
             _log = logger.debug if getattr(self, "_connecting", False) else logger.error
-            _log(f"ERROR - All retry attempts failed! " f"BMS ID: {bms_id} Command: {command_string} " f"Received: {received_len} Expected: {reply_length}")
+            _log(f"ERROR - All retry attempts failed! BMS ID: {bms_id} Command: {command_string} Received: {received_len} Expected: {reply_length}")
             return False
         except serial.SerialException as e:
             logger.error(e)

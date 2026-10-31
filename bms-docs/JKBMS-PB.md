@@ -475,9 +475,9 @@ divides by 10 to get degrees Celsius:
 ```python
 raw = unpack_from("<h", data, offset)[0] / 10
 if raw < 99:
-    temp_c = raw          # normal: 199 → 19.9°C
+    temp_c = raw  # normal: 199 → 19.9°C
 else:
-    temp_c = 100 - raw    # negative: 1050 → 105.0 → 100-105 = -5°C
+    temp_c = 100 - raw  # negative: 1050 → 105.0 → 100-105 = -5°C
 ```
 
 Observed values at ~20°C ambient: raw=187–207, giving 18.7–20.7°C.

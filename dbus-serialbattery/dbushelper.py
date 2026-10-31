@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
-import sys
+import json
 import os
 import platform
-import dbus
+import sys
+import threading
 import traceback
 from time import sleep, time
-from utils import logger
-import utils
 from xml.etree import ElementTree
+
+import dbus
 import requests
-import threading
-import json
+
+import utils
+from utils import logger
 
 # add path to velib_python
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "ext", "velib_python"))
-from vedbus import VeDbusService  # noqa: E402
-from ve_utils import get_vrm_portal_id  # noqa: E402
 from settingsdevice import SettingsDevice  # noqa: E402
+from ve_utils import get_vrm_portal_id  # noqa: E402
+from vedbus import VeDbusService  # noqa: E402
 
 # Bus name Victron's settings daemon publishes on the system bus (D-Bus calls this a
 # "well-known" name: a fixed string both sides use, unlike unique :1.xx connection names).
@@ -328,7 +330,6 @@ class DbusHelper:
                     # check the unique identifier, if the battery was already connected once
                     # if so, get the last saved data
                     if "UniqueIdentifier" in value and value["UniqueIdentifier"] == self.bms_id:
-
                         # check if the battery has ClassAndVrmInstance set
                         temp_instance = "Unknown"
                         if "ClassAndVrmInstance" in value and value["ClassAndVrmInstance"] != "":
@@ -352,7 +353,6 @@ class DbusHelper:
 
                         # check if the battery has AllowMaxVoltage set
                         if "AllowMaxVoltage" in value and value["AllowMaxVoltage"] != "":
-
                             try:
                                 self.battery.allow_max_voltage = True if int(value["AllowMaxVoltage"]) == 1 else False
                                 logger.debug(f"AllowMaxVoltage read from dbus: {self.battery.allow_max_voltage}")
@@ -1047,7 +1047,6 @@ class DbusHelper:
 
                     # if the battery did not update in 10 second, it's assumed to be offline
                     if time_since_first_error >= RETRY_CYCLE_SHORT_COUNT:
-
                         if self.battery.online and self.error["cleared"]:
                             # set battery offline
                             self.battery.online = False
@@ -1364,7 +1363,6 @@ class DbusHelper:
 
                 # Update TimeToGo item
                 if utils.TIME_TO_GO_ENABLE and percent_per_seconds is not None:
-
                     # Get settings from dbus
                     settings_battery_life = self.get_settings_with_values(
                         get_bus(VICTRON_SETTINGS_DBUS_NAME),
@@ -1909,7 +1907,6 @@ class DbusHelper:
                 #     + f"Retry on next interval in {self.telemetry_upload_interval} s."
                 # )
             else:
-
                 # Check if the main thread is still alive
                 #
                 main_thread = threading.main_thread()
