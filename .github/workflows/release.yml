@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        # v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Replace version string
         run: |
@@ -25,6 +26,11 @@ jobs:
           grep -n "DRIVER_VERSION: str = " dbus-serialbattery/utils.py
           sed -i --regexp-extended --expression="s/[0-9]+\.[0-9]+\.[0-9a-z\_\-]+/$VERSION/" "dbus-serialbattery/utils.py"
           grep -n "DRIVER_VERSION: str = " dbus-serialbattery/utils.py
+          echo
+          # keep pyproject.toml in sync
+          grep -n '^version' pyproject.toml
+          sed -i -E "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
+          grep -n '^version' pyproject.toml
 
       - name: Change telemetry interval for release versions
         run: |
@@ -59,7 +65,20 @@ jobs:
             dbus-serialbattery/ \
             rc/
 
+      - name: Install uv
+        # v10.3.3
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
+
+      - name: Generate checksum and SBOM for the release artifact
+        run: |
+          sha256sum venus-data.tar.gz > venus-data.tar.gz.sha256
+          uv export --format cyclonedx1.5 --no-dev -o venus-data.tar.gz.cdx.json
+
       - name: Release
-        uses: softprops/action-gh-release@v3
+        # v3.0.3
+        uses: softprops/action-gh-release@e598afbe1493e6b1bafb1f389cabb956eab91231
         with:
-          files: venus-data.tar.gz
+          files: |
+            venus-data.tar.gz
+            venus-data.tar.gz.sha256
+            venus-data.tar.gz.cdx.json
