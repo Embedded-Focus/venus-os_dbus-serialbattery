@@ -207,17 +207,9 @@ class standalone_serialbattery:
                         return battery
                 except KeyboardInterrupt:
                     return None
-                except Exception:
-                    (
-                        exception_type,
-                        exception_object,
-                        exception_traceback,
-                    ) = sys.exc_info()
-                    file = exception_traceback.tb_frame.f_code.co_filename
-                    line = exception_traceback.tb_lineno
-                    logging.error("Non blocking exception occurred: " + f"{repr(exception_object)} of type {exception_type} in {file} line #{line}")
+                except Exception as e:
                     # Ignore any malfunction test_function()
-                    pass
+                    logging.error("Non blocking exception occurred: %s", e)
             retry += 1
             sleep(0.5)
 
@@ -481,16 +473,8 @@ class standalone_serialbattery:
             Status.append(self.soc)
 
         except Exception as e:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logging.error("Non blocking exception occurred: " + f"{repr(exception_object)} of type {exception_type} in {file} line #{line}")
             # Ignore any malfunction test_function()
+            logging.error("Non blocking exception occurred: %s", e)
             logging.error("Error during reading BMS")
-            logging.error(str(e))
 
         return Status

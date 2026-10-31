@@ -3,7 +3,6 @@
 # Notes
 # Updated by https://github.com/mr-manuel
 
-import sys
 from re import sub
 from struct import unpack_from
 
@@ -43,14 +42,7 @@ class Jkbms(Battery):
             # only read next data if the first one was successful, this saves time when checking multiple battery types
             result = result and self.get_settings()
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result

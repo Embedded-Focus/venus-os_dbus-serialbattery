@@ -5,7 +5,6 @@
 
 import datetime
 import struct
-import sys
 import time
 from pprint import pformat
 from time import sleep
@@ -123,14 +122,7 @@ class EG4_LL(Battery):
                 else:
                     return False
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             return False
 
     def read_battery_bank(self) -> bool:

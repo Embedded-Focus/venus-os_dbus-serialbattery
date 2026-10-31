@@ -6,7 +6,6 @@
 # Updated by https://github.com/mr-manuel
 
 import os
-import sys
 from time import sleep, time
 from typing import Callable
 
@@ -88,14 +87,7 @@ class Jkbms_Ble(Battery):
                 result = result and self.refresh_data()
 
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result
@@ -260,14 +252,7 @@ class Jkbms_Ble(Battery):
 
             return True
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             return False
 
     def reset_bluetooth(self):

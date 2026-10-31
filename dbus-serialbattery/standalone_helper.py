@@ -3,8 +3,6 @@
 # NOTES
 # This part is maintained by https://github.com/MacGH23
 
-import sys
-import traceback
 from time import time
 
 import utils
@@ -58,7 +56,7 @@ class DbusHelper:
                 self.error["count"] += 1
 
         except Exception:
-            traceback.print_exc()
+            logger.exception("Unexpected error in main loop")
 
     def Log_Data(self):
         # Update SOC, DC and System items
@@ -121,10 +119,7 @@ class DbusHelper:
                 logger.debug("Voltage Sum:" + str(voltage_sum))
 
             except Exception:
-                exception_type, exception_object, exception_traceback = sys.exc_info()
-                file = exception_traceback.tb_frame.f_code.co_filename
-                line = exception_traceback.tb_lineno
-                logger.error("Non blocking exception occurred: " + f"{repr(exception_object)} of type {exception_type} in {file} line #{line}")
+                logger.error("Non blocking exception occurred", exc_info=True)
                 pass
 
                 logger.debug(str(self.battery.current_avg))

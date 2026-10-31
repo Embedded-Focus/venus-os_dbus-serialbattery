@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import sys
-
 import ext.minimalmodbus as minimalmodbus
 
 from battery import Battery, Cell, Protection
@@ -71,14 +69,7 @@ class Ecs(Battery):
         except IOError:
             result = False
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         # give the user a feedback that no BMS was found

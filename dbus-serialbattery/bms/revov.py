@@ -63,14 +63,7 @@ class Revov(Battery):
             result = result and self.read_gen_data()
             result = result and self.refresh_data()
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result

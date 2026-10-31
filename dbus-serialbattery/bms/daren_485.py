@@ -7,7 +7,6 @@
 # See https://github.com/cpttinkering/daren-485 for protocol research information
 
 # avoid importing wildcards, remove unused imports
-import sys
 from re import findall
 from struct import unpack
 from time import sleep
@@ -43,14 +42,7 @@ class Daren485(Battery):
             # only read next data if the first one was successful, this saves time when checking multiple battery types
             result = result and self.refresh_data()
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result

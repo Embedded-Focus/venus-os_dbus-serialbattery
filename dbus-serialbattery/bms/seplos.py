@@ -4,8 +4,6 @@
 # Added by https://github.com/wollew
 # https://github.com/Louisvdw/dbus-serialbattery/pull/530
 
-import sys
-
 import serial
 
 from battery import Battery, Cell, Protection
@@ -85,14 +83,7 @@ class Seplos(Battery):
             encoded = b"~" + frame + "{:04X}".format(checksum).encode() + b"\r"
             return encoded
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             return b""
 
     def test_connection(self):
@@ -109,14 +100,7 @@ class Seplos(Battery):
             # only read next data if the first one was successful, this saves time when checking multiple battery types
             result = result and self.refresh_data()
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         # give the user a feedback that no BMS was found

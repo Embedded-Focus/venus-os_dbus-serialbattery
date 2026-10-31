@@ -89,14 +89,11 @@ class LltJbd_Ble(LltJbd):
         try:
             self.device = await BleakScanner.find_device_by_address(self.address, cb=dict(use_bdaddr=True))
 
-        except Exception:
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            if "Bluetooth adapters" in repr(exception_object):
+        except Exception as e:
+            if "Bluetooth adapters" in repr(e):
                 self.reset_hci_uart()
             else:
-                logger.error(f"BleakScanner(): Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+                logger.error("BleakScanner(): Exception occurred", exc_info=True)
 
             self.device = None
             await asyncio.sleep(0.5)
@@ -123,28 +120,19 @@ class LltJbd_Ble(LltJbd):
 
         # Exception occurred: TimeoutError() of type <class 'asyncio.exceptions.TimeoutError'>
         except asyncio.exceptions.TimeoutError:
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"BleakClient(): asyncio.exceptions.TimeoutError: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("BleakClient(): asyncio.exceptions.TimeoutError", exc_info=True)
             # needed?
             self.run = False
             return
 
         except TimeoutError:
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"BleakClient(): TimeoutError: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("BleakClient(): TimeoutError", exc_info=True)
             # needed?
             self.run = False
             return
 
         except Exception:
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"BleakClient(): Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("BleakClient(): Exception occurred", exc_info=True)
             # needed?
             self.run = False
             return
@@ -229,10 +217,7 @@ class LltJbd_Ble(LltJbd):
                     return False
                 result = super().test_connection()
         except Exception:
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result
@@ -299,17 +284,11 @@ class LltJbd_Ble(LltJbd):
                 get_connection_error_message(self.online)
                 return False
             except BleakDBusError:
-                exception_type, exception_object, exception_traceback = sys.exc_info()
-                file = exception_traceback.tb_frame.f_code.co_filename
-                line = exception_traceback.tb_lineno
-                logger.error(f"BleakDBusError: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+                logger.error("BleakDBusError", exc_info=True)
                 self.reset_bluetooth()
                 return False
             except Exception:
-                exception_type, exception_object, exception_traceback = sys.exc_info()
-                file = exception_traceback.tb_frame.f_code.co_filename
-                line = exception_traceback.tb_lineno
-                logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+                logger.error("Exception occurred", exc_info=True)
                 self.reset_bluetooth()
                 return False
         else:
@@ -330,10 +309,7 @@ class LltJbd_Ble(LltJbd):
         #     logger.error(e)
         #     return False
         except Exception:
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             return False
 
     def reset_bluetooth(self):

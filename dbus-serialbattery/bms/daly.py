@@ -3,7 +3,6 @@
 # Notes
 # Updated by https://github.com/transistorgit
 
-import sys
 from datetime import datetime
 from re import sub
 from struct import pack_into, unpack_from
@@ -95,14 +94,7 @@ class Daly(Battery):
                 result = result and self.get_settings(ser)
 
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         # give the user a feedback that no BMS was found

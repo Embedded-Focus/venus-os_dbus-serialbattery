@@ -8,7 +8,6 @@ import asyncio
 import atexit
 import binascii
 import struct
-import sys
 import threading
 from time import time
 from typing import Optional
@@ -94,14 +93,7 @@ class Kilovault_Ble(Battery):
             logger.info(f"self.run: {self.run}")
             return True
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Connection failure occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Connection failure occurred", exc_info=True)
             return False
 
     def stop_notifications_and_disconnect(self):
@@ -209,14 +201,7 @@ class Kilovault_Ble(Battery):
             self.valid_data_event.wait()
             result = True
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result

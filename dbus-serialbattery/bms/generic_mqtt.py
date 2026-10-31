@@ -125,14 +125,7 @@ class Generic_Mqtt(Battery):
             return True
 
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result
@@ -408,19 +401,8 @@ class Generic_Mqtt(Battery):
             logger.debug("MQTT payload: " + str(msg.payload)[1:])
 
         except Exception:
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            print(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
             logger.debug("MQTT payload: " + str(msg.payload)[1:])
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
 
     def callback_charging_force_off(self, path, value):
         return True

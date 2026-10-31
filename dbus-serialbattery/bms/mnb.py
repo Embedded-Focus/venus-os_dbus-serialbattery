@@ -5,8 +5,6 @@
 # https://github.com/Louisvdw/dbus-serialbattery/issues/590
 # https://community.victronenergy.com/comments/231924/view.html
 
-import sys
-
 from battery import Battery, Cell, Protection
 from bms.mnb_utils_max17853 import data_cycle, init_max
 from utils import MAX_CELL_VOLTAGE, MIN_CELL_VOLTAGE, logger
@@ -93,14 +91,7 @@ class MNB(Battery):
             # only read next data if the first one was successful, this saves time when checking multiple battery types
             result = result and self.read_status_data()
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result

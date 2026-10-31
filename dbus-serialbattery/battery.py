@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 import math
-import sys
 from abc import ABC, abstractmethod
 from datetime import datetime
 from time import time
@@ -1058,10 +1057,7 @@ class Battery(ABC):
             # set error code, to show in the GUI that something is wrong
             self.manage_error_code(8)
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Non blocking exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Non blocking exception occurred", exc_info=True)
 
     def manage_charge_and_discharge_current(self) -> None:
         """
@@ -1391,10 +1387,7 @@ class Battery(ABC):
                 + f" • MAX_CHARGE_CURRENT_CV: {utils.MAX_CHARGE_CURRENT_CV}"
             )
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Non blocking exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Non blocking exception occurred", exc_info=True)
             return self.max_battery_charge_current
 
     def calc_max_discharge_current_from_cell_voltage(self) -> float:
@@ -1436,10 +1429,7 @@ class Battery(ABC):
                 + f" • MAX_DISCHARGE_CURRENT_CV: {utils.MAX_DISCHARGE_CURRENT_CV}"
             )
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Non blocking exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Non blocking exception occurred", exc_info=True)
             return self.max_battery_discharge_current
 
     def calc_max_charge_current_from_temperature(self) -> float:
@@ -1493,10 +1483,7 @@ class Battery(ABC):
                 + f" • MAX_CHARGE_CURRENT_T: {utils.MAX_CHARGE_CURRENT_T}"
             )
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Non blocking exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Non blocking exception occurred", exc_info=True)
             return self.max_battery_charge_current
 
     def calc_max_discharge_current_from_temperature(self) -> float:
@@ -1550,10 +1537,7 @@ class Battery(ABC):
                 + f" • MAX_DISCHARGE_CURRENT_T: {utils.MAX_DISCHARGE_CURRENT_T}"
             )
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Non blocking exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Non blocking exception occurred", exc_info=True)
             return self.max_battery_discharge_current
 
     def calc_max_charge_current_from_mosfet_temperature(self) -> float:
@@ -1590,10 +1574,7 @@ class Battery(ABC):
                 + f" • MAX_CHARGE_CURRENT_T_MOSFET: {utils.MAX_CHARGE_CURRENT_T_MOSFET}"
             )
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Non blocking exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Non blocking exception occurred", exc_info=True)
             return self.max_battery_charge_current
 
     def calc_max_discharge_current_from_mosfet_temperature(self) -> float:
@@ -1630,10 +1611,7 @@ class Battery(ABC):
                 + f" • MAX_DISCHARGE_CURRENT_T_MOSFET: {utils.MAX_DISCHARGE_CURRENT_T_MOSFET}"
             )
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Non blocking exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Non blocking exception occurred", exc_info=True)
             return self.max_battery_discharge_current
 
     def calc_max_charge_current_from_soc(self) -> float:
@@ -1667,10 +1645,7 @@ class Battery(ABC):
                 + f" • MAX_CHARGE_CURRENT_SOC: {utils.MAX_CHARGE_CURRENT_SOC}"
             )
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             return self.max_battery_charge_current
 
     def calc_max_discharge_current_from_soc(self) -> float:
@@ -1704,10 +1679,7 @@ class Battery(ABC):
                 + f" • MAX_DISCHARGE_CURRENT_SOC: {utils.MAX_DISCHARGE_CURRENT_SOC}"
             )
 
-            exception_type, exception_object, exception_traceback = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             return self.max_battery_discharge_current
 
     def get_min_cell(self) -> int:
@@ -2148,14 +2120,7 @@ class Battery(ABC):
             utils.EXTERNAL_SENSOR_DBUS_PATH_CURRENT = None
             utils.EXTERNAL_SENSOR_DBUS_PATH_SOC = None
             self.dbus_external_objects = None
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             logger.error("External current sensor setup failed, fallback to internal sensor")
 
     def get_current(self) -> Union[float, None]:

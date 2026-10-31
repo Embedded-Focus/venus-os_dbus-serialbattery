@@ -399,13 +399,8 @@ class Jkbms_Brn:
         capture_raw_data(self.address, "tx", frame)
         try:
             await bleakC.write_gatt_char(CHAR_HANDLE, frame, response=awaitresponse)
-        except exc.BleakError:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            logger.debug(f'Error getting UUID "{CHAR_HANDLE}": {repr(exception_object)} -> failover')
+        except exc.BleakError as e:
+            logger.debug(f'Error getting UUID "{CHAR_HANDLE}": {e!r} -> failover')
             await bleakC.write_gatt_char(CHAR_HANDLE_FAILOVER, frame, response=awaitresponse)
 
         if awaitresponse:
@@ -471,13 +466,8 @@ class Jkbms_Brn:
                 # failover in this case and use handle instead of UUID
                 try:
                     await self.bt_client.start_notify(CHAR_HANDLE, self.ncallback)
-                except exc.BleakError:
-                    (
-                        exception_type,
-                        exception_object,
-                        exception_traceback,
-                    ) = sys.exc_info()
-                    logger.info(f'Error getting UUID "{CHAR_HANDLE}": {repr(exception_object)} -> failover')
+                except exc.BleakError as e:
+                    logger.info(f'Error getting UUID "{CHAR_HANDLE}": {e!r} -> failover')
                     await self.bt_client.start_notify(CHAR_HANDLE_FAILOVER, self.ncallback)
 
                 await self.request_bt("settings", self.bt_client)
@@ -494,15 +484,8 @@ class Jkbms_Brn:
                 logger.info(f"BLE client not found: {self.address} - is it turned on and nearby?")
                 self.run = False
 
-            except Exception:
-                (
-                    exception_type,
-                    exception_object,
-                    exception_traceback,
-                ) = sys.exc_info()
-                file = exception_traceback.tb_frame.f_code.co_filename
-                line = exception_traceback.tb_lineno
-                logger.info(f"Error while connecting to BLE client: {repr(exception_object)} " + f"of type {exception_type} in {file} line #{line}")
+            except Exception as e:
+                logger.info(f"Error while connecting to BLE client: {e!r}")
                 self.run = False
 
             finally:
@@ -511,15 +494,8 @@ class Jkbms_Brn:
                     try:
                         await self.bt_client.disconnect()
                         logger.info("BLE client disconnected")
-                    except Exception:
-                        (
-                            exception_type,
-                            exception_object,
-                            exception_traceback,
-                        ) = sys.exc_info()
-                        file = exception_traceback.tb_frame.f_code.co_filename
-                        line = exception_traceback.tb_lineno
-                        logger.info(f"Error while disconnecting BLE client {repr(exception_object)} " + f"of type {exception_type} in {file} line #{line}")
+                    except Exception as e:
+                        logger.info(f"Error while disconnecting BLE client {e!r}")
 
         logger.debug("--> asy_connect_and_scrape(): Exit")
 

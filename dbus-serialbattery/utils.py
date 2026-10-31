@@ -1107,14 +1107,7 @@ def read_serialport_data_deprecated(
         return False
 
     except Exception:
-        (
-            exception_type,
-            exception_object,
-            exception_traceback,
-        ) = sys.exc_info()
-        file = exception_traceback.tb_frame.f_code.co_filename
-        line = exception_traceback.tb_lineno
-        logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+        logger.error("Exception occurred", exc_info=True)
         return False
 
 
@@ -1158,14 +1151,7 @@ def read_serial_data(
         return False
 
     except Exception:
-        (
-            exception_type,
-            exception_object,
-            exception_traceback,
-        ) = sys.exc_info()
-        file = exception_traceback.tb_frame.f_code.co_filename
-        line = exception_traceback.tb_lineno
-        logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+        logger.error("Exception occurred", exc_info=True)
 
 
 def safe_number_format(value: float, fmt: str = "{:.2f}", default=None) -> str:

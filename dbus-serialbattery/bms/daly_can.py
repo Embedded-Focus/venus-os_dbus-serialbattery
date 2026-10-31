@@ -8,7 +8,6 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import sys
 from struct import pack_into, unpack_from
 from time import sleep, time
 
@@ -138,14 +137,7 @@ class Daly_Can(Battery):
             self.get_settings()
             result = self.refresh_data()
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             result = False
 
         return result
@@ -484,14 +476,7 @@ class Daly_Can(Battery):
             ]
             """
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
             return False
 
     def callback_soc_reset_to(self, path, value):

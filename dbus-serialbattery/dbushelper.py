@@ -33,7 +33,7 @@ VICTRON_SETTINGS_IFACE_NAME = "com.victronenergy.Settings"
 _SENTINEL = object()
 
 
-def _adjust_temperature(value, adjustment):
+def _adjust_temperature(value: float | None, adjustment: Sequence[float]) -> float | None:
     if value is None:
         return None
     return (value * adjustment[1]) + adjustment[0]
@@ -230,14 +230,7 @@ class DbusHelper:
             return False
 
         except Exception:
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(f"Exception occurred: {repr(exception_object)} of type {exception_type} in {file} line #{line}")
+            logger.error("Exception occurred", exc_info=True)
 
         # Seek to the beginning of the file
         self.pid_file.seek(0)
@@ -1332,10 +1325,7 @@ class DbusHelper:
                 # set error code, to show in the GUI that something is wrong
                 self.battery.manage_error_code(8)
 
-                exception_type, exception_object, exception_traceback = sys.exc_info()
-                file = exception_traceback.tb_frame.f_code.co_filename
-                line = exception_traceback.tb_lineno
-                logger.error("Non blocking exception occurred: " + f"{repr(exception_object)} of type {exception_type} in {file} line #{line}")
+                logger.error("Non blocking exception occurred", exc_info=True)
 
         # Calculate average current for the last 300 cycles
         self.battery.previous_current_avg = self.battery.current_avg
@@ -1892,17 +1882,7 @@ class DbusHelper:
             self.telemetry_upload_error_count += 1
 
             """
-            (
-                exception_type,
-                exception_object,
-                exception_traceback,
-            ) = sys.exc_info()
-            file = exception_traceback.tb_frame.f_code.co_filename
-            line = exception_traceback.tb_lineno
-            logger.error(
-                "Non blocking exception occurred: "
-                + f"{repr(exception_object)} of type {exception_type} in {file} line #{line}"
-            )
+            logger.error("Non blocking exception occurred", exc_info=True)
             """
 
             if self.telemetry_upload_error_count >= 5:

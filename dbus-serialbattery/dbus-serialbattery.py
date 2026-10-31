@@ -275,14 +275,7 @@ def main():
             except KeyboardInterrupt:
                 raise
             except Exception:
-                (
-                    exception_type,
-                    exception_object,
-                    exception_traceback,
-                ) = sys.exc_info()
-                file = exception_traceback.tb_frame.f_code.co_filename
-                line = exception_traceback.tb_lineno
-                logger.error("Non blocking exception occurred: " + f"{repr(exception_object)} of type {exception_type} in {file} line #{line}")
+                logger.error("Non blocking exception occurred", exc_info=True)
                 # Ignore any malfunction test_function()
             return None
 
