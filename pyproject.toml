@@ -1,9 +1,90 @@
-[tool.black]
+[project]
+name = "dbus-serialbattery"
+description = "Venus OS driver for serial/BMS batteries (dbus-serialbattery)"
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+# Venus OS ships Python 3.11+. CI and dev environments can use newer versions
+requires-python = ">=3.13"
+# Keep in sync with DRIVER_VERSION in dbus-serialbattery/utils.py
+# (the release workflow bumps both on tag)
+version = "2.1.20260729dev"
+
+# The driver is not published to PyPI and ships as a Venus OS data partition
+# tarball, so it is not built/installed as a package. Dependencies below are
+# the ones the driver imports at runtime. They are declared and locked here so
+# that development environments, CI and the standalone variant can install a
+# reproducible, hash-verified set of dependencies from uv.lock.
+# On Venus OS devices most of these are provided by the vendored copies in
+# dbus-serialbattery/ext/ instead (see VENDORED.md).
+dependencies = [
+    "pyserial>=3.5",
+    "python-can>=4.5",
+    "requests>=2.32",
+    "paho-mqtt>=2.1",
+    "bleak>=0.22",
+    "bleak-retry-connector>=3.8",
+    "aiobmsble>=0.2",
+    "dbus-fast>=2.0 ; platform_machine != 'armv7l'",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0",
+    "ruff>=0.17.3",
+    "ty>=0.0.95",
+]
+
+[tool.uv]
+# Virtual project: the code runs in-place on Venus OS devices and is shipped
+# as a tarball, not as a built wheel.
+package = false
+
+[tool.ruff]
 line-length = 160
-extend-exclude = '''
-# A regex preceded with ^/ will apply only to files and directories
-# in the root of the project.
-(
-    ^/dbus-serialbattery/ext/.*
-)
-'''
+target-version = "py311"
+extend-exclude = [
+    # Vendored third-party code (see VENDORED.md)
+    "dbus-serialbattery/ext",
+    # Legacy experimental drivers, not linted before either
+    "dbus-serialbattery/bms/mnb_test_max17853.py",
+    "dbus-serialbattery/bms/mnb_utils_max17853.py",
+    "dbus-serialbattery/bms/revov.py",
+]
+
+[tool.ruff.lint]
+# Conservative baseline (pycodestyle subset + pyflakes + import sorting).
+# Extend gradually once the existing code base is clean.
+select = [
+    "E4",   # pycodestyle errors
+    "E7",   # pycodestyle errors (statements)
+    "E9",   # pycodestyle errors (runtime)
+    "F",    # pyflakes
+    "I",    # isort
+    "W",    # pycodestyle warnings
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Long config keys / URLs that cannot be wrapped
+"dbus-serialbattery/utils.py" = ["E501"]
+
+[tool.ruff.lint.isort]
+# Local modules of the driver
+known-first-party = [
+    "battery",
+    "bms",
+    "dbushelper",
+    "standalone_helper",
+    "utils",
+    "utils_ble",
+    "utils_can",
+]
+
+[tool.ty]
+src.exclude = ["dbus-serialbattery/ext"]
+
+[tool.pytest.ini_options]
+addopts = "-vv"
+log_cli = true
+log_cli_level = "INFO"
+pythonpath = ["dbus-serialbattery"]
+testpaths = ["tests"]

@@ -1,5 +1,12 @@
 {
-    "[python]": { "editor.formatOnSave": true },
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.codeActionsOnSave": {
+            "source.fixAll.ruff": "explicit",
+            "source.organizeImports.ruff": "explicit"
+        }
+    },
 
     "python.autoComplete.extraPaths": [
         "dbus-serialbattery/ext",
